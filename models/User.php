@@ -51,4 +51,35 @@ class User {
 
         return ['error' => 'Invalid token'];
     }
+      public static function getByToken($token) {
+        $path = __DIR__ . '/../storage/tokens.json';
+        
+        if (!file_exists($path)) {
+            return null;
+        }
+        
+        $tokens = json_decode(file_get_contents($path), true);
+        
+        if (!isset($tokens[$token])) {
+            return null;
+        }
+        
+        $userData = $tokens[$token];
+        $userId = $userData['user_id'];
+        
+        $db = Database::getConnection();
+        $statement = $db->prepare("SELECT id, name, email, role FROM users WHERE id = ?");
+        $statement->execute([$userId]);
+        $user = $statement->fetch();
+        
+        if (!$user) {
+            return null;
+        }
+        
+        $user['token'] = $token;
+        return $user;
+    }
+ 
+
+
 }
