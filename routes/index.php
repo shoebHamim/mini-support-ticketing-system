@@ -2,7 +2,8 @@
 require_once __DIR__ . '/../controllers/UserController.php';
 require_once __DIR__ . '/../middlewares/AuthMiddleware.php';
 require_once __DIR__ . '/../controllers/DepartmentController.php';
-// require_once __DIR__ . '/../controllers/TicketController.php';
+require_once __DIR__ . '/../controllers/TicketController.php';
+require_once __DIR__ . '/../controllers/NoteController.php';
 
 header('Content-Type: application/json');
 
@@ -38,6 +39,29 @@ switch (true) {
         $id = $matches[1];
         (new DepartmentController())->delete($id);
         break;
+
+    // ticket
+    case $uri === '/tickets' && $method === 'POST':
+        $user = AuthMiddleware::checkAuth();
+        (new TicketController())->create($user);
+        break;
+
+    case preg_match('#^/tickets/(\d+)/assign$#', $uri, $matches) && $method === 'POST':
+        $id = $matches[1];
+        $user = AuthMiddleware::checkAuth();
+        (new TicketController())->assignToSelf($id, $user);
+        break;
+    case preg_match('#^/tickets/(\d+)/status$#', $uri, $matches) && $method === 'PUT':
+        $id = $matches[1];
+        $user = AuthMiddleware::checkAuth();
+        (new TicketController())->updateStatus($id, $user);
+        break;
+    case preg_match('#^/tickets/(\d+)/notes$#', $uri, $matches) && $method === 'POST':
+        $ticketId = $matches[1];
+        $user = AuthMiddleware::checkAuth();
+        (new NoteController())->addNote($ticketId, $user);
+        break;
+
 
 
 
