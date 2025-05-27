@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__ . '/../controllers/AuthController.php';
+require_once __DIR__ . '/../controllers/UserController.php';
+require_once __DIR__ . '/../middlewares/AuthMiddleware.php';
 // require_once __DIR__ . '/../controllers/DepartmentController.php';
 // require_once __DIR__ . '/../controllers/TicketController.php';
 
@@ -10,15 +11,15 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 switch (true) {
     case $uri === '/register' && $method === 'POST':
-        (new AuthController())->register();
+        (new UserController())->register();
         break;
     case $uri === '/login' && $method === 'POST':
-        (new AuthController())->login();
+        (new UserController())->login();
         break;
-    case $uri === '/logout' && $method === 'POST':
-        (new AuthController())->logout();
+     case $uri === '/logout' && $method === 'POST':
+        $user = AuthMiddleware::checkAuth(); 
+        (new UserController())->logout($user);
         break;
-
 
 
     default:
