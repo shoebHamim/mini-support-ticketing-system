@@ -4,6 +4,7 @@ require_once __DIR__ . '/../middlewares/AuthMiddleware.php';
 require_once __DIR__ . '/../controllers/DepartmentController.php';
 require_once __DIR__ . '/../controllers/TicketController.php';
 require_once __DIR__ . '/../controllers/NoteController.php';
+require_once __DIR__ . '/../middlewares/RateLimiterMiddleware.php'; 
 
 header('Content-Type: application/json');
 
@@ -42,6 +43,7 @@ switch (true) {
 
     // ticket
     case $uri === '/tickets' && $method === 'POST':
+        RateLimiterMiddleware::check(1); 
         $user = AuthMiddleware::checkAuth();
         (new TicketController())->create($user);
         break;
