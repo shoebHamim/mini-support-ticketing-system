@@ -1,21 +1,70 @@
 <?php
-require_once __DIR__ . '/../core/Database.php';
+require_once __DIR__ . '/../config/Database.php';
+class Department
+{
+    private $db;
+    private $table = 'departments';
 
-class Department {
-    public static function getAll() {
-        $db = Database::getConnection();
-        return $db->query("SELECT * FROM departments")->fetchAll();
+    public function __construct()
+    {
+        $this->db = Database::getConnection();
     }
 
-    public static function create($name) {
-        $db = Database::getConnection();
-        $stmt = $db->prepare("INSERT INTO departments (name) VALUES (?)");
-        $stmt->execute([$name]);
+
+    public function findById($id)
+    {
+        $statement = $this->db->prepare("SELECT * FROM {$this->table} WHERE id = ?");
+        $statement->execute([$id]);
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
+    public function getAll()
+    {
+        $statement = $this->db->query("SELECT * FROM {$this->table}");
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function delete($id) {
-        $db = Database::getConnection();
-        $stmt = $db->prepare("DELETE FROM departments WHERE id = ?");
-        $stmt->execute([$id]);
+    public function create($name)
+    {
+        $statement = $this->db->prepare("INSERT INTO {$this->table} (name) VALUES (?)");
+        $statement->execute([$name]);
+        return [
+            'success' => true,
+            'message' => 'Department created successfully',
+            'department_id' => $this->db->lastInsertId()
+        ];
+    }
+
+    public function delete($id)
+    {
+        $statement = $this->db->prepare("DELETE FROM {$this->table} WHERE id = ?");
+        $statement->execute([$id]);
+        if ($statement->rowCount() > 0) {
+            return [
+                'success' => true,
+                'message' => 'Department deleted successfully'
+            ];
+        } else {
+            return [
+                'success' => false,
+                'message' => 'Could not delete the department'
+            ];
+        }
+    }
+    public function update($id, $name)
+    {
+        $statement = $this->db->prepare("UPDATE {$this->table} SET name = ? WHERE id = ?");
+        $statement->execute([$name, $id]);
+
+        if ($statement->rowCount() > 0) {
+            return [
+                'success' => true,
+                'message' => 'Department updated successfully'
+            ];
+        } else {
+            return [
+                'success' => false,
+                'message' => 'No changes made to department'
+            ];
+        }
     }
 }
