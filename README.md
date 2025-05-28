@@ -19,7 +19,7 @@ php database/seed.php
 
 ### 3. Run the PHP Server
 ```bash
-php -S localhost:8000 -t routes/index.php
+php -S localhost:8000 routes/index.php
 ```
 
 ## API Endpoint Testing(Potman)
