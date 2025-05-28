@@ -9,7 +9,7 @@ git clone https://github.com/shoebHamim/mini-support-ticketing-system.git
 
 ### 2. Go to the cloned directory
 ```bash
-cd support-ticketing-system
+cd mini-support-ticketing-system
 ```
 
 ### 3. Seed Sample Data (Optional)
