@@ -23,7 +23,7 @@ php -S localhost:8000 routes/index.php
 ```
 
 ## API Endpoint Testing(Potman)
-- Download the `SupportTicketingSystem.postman_collection.json` file
+- Download the `SupportTicketingSystem.postman_collection.json` file (in the root directory of the project)
 - import it to Postman
 - Change the variables accordingly 
 - Test !
