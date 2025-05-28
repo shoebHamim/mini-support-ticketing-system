@@ -5,18 +5,21 @@
 ### 1. Clone the Repository
 ```bash
 git clone https://github.com/shoebHamim/mini-support-ticketing-system.git
+```
+
+### 2. Go to the cloned directory
+```bash
 cd support-ticketing-system
 ```
 
-
-### 2. Seed Sample Data (Optional)
+### 3. Seed Sample Data (Optional)
 ```bash
 php database/seed.php
 ```
 
 ### 3. Run the PHP Server
 ```bash
-php -S localhost:8000 -t .
+php -S localhost:8000 -t routes/index.php
 ```
 
 ## API Endpoint Testing(Potman)
