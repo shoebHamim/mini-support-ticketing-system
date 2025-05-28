@@ -1,6 +1,6 @@
 # Support Ticketing System
 
-## Getting Started
+## Setup Instructions
 
 ### 1. Clone the Repository
 ```bash
