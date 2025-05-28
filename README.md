@@ -17,7 +17,7 @@ cd mini-support-ticketing-system
 php database/seed.php
 ```
 
-### 3. Run the PHP Server
+### 4. Run the PHP Server
 ```bash
 php -S localhost:8000 routes/index.php
 ```
